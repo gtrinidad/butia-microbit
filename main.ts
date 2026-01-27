@@ -7,7 +7,7 @@
 pins.setAudioPin(DigitalPin.P0)
 
 //% color="#84c324" icon="\uf410"
-//% groups="['Sensores', 'Motores']"
+//% groups="['Sensores', 'Motores', 'eventos']"
 namespace Butia {
     export enum Jconectors {
         //% block="J1"
@@ -126,6 +126,50 @@ namespace Butia {
         pins.digitalWritePin(mPins[1], mDirs[1])
     }
 
+    const SENSOR_EVENT_ID = 3194
 
+    export enum SensorEvent {
+        //% block="Supero el umbral"
+        LevelReached = 1,
+        //% block="Dejo de superar el umbral"
+        LevelLeft = 2
+    }
+
+    /**
+     * Comienza monitoreo
+     */
+    //% block="Monitorear Luz en puerto $dir con umbral $threshold"
+    //% group="Eventos"
+    export function startMonitoring(pin: Jconectors, threshold: number) {
+        let wasAbove = false
+
+        control.inBackground(() => {
+            while (true) {
+                const value = readLightSensor(pin)
+                const isAbove = value >= threshold
+
+                if (isAbove && !wasAbove) {
+                    control.raiseEvent(SENSOR_EVENT_ID, SensorEvent.LevelReached)
+                }
+
+                if (!isAbove && wasAbove) {
+                    control.raiseEvent(SENSOR_EVENT_ID, SensorEvent.LevelLeft)
+                }
+
+                wasAbove = isAbove
+                basic.pause(20)
+            }
+        })
+    }
+
+    //% block="when sensor level reached"
+    //% group="Eventos"
+    export function onLevelReached(handler: () => void) {
+        control.onEvent(
+            SENSOR_EVENT_ID,
+            SensorEvent.LevelReached,
+            handler
+        )
+    }
 
 }
