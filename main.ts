@@ -205,4 +205,37 @@ namespace Butia {
         )
     }
 
+    /**
+     * Comienza monitoreo de boton
+     */
+    //% block="Monitorear el boton en puerto $pin"
+    //% group="Eventos"
+    export function startMonitoringButton(pin: Jconectors) {
+        let wasAbove = false
+        const sensorID = getSensorID (Sensors.Button, pin)
+        control.inBackground(() => {
+            while (true) {
+                const isAbove = readButton(pin)
+
+                if (isAbove && !wasAbove) {
+                    control.raiseEvent(SENSOR_EVENT_ID, sensorID + 1)
+                }
+
+                wasAbove = isAbove
+                basic.pause(20)
+            }
+        })
+    }
+
+    //% block="Cuando el boton en el puerto $pin es presionado"
+    //% group="Eventos"
+    export function onButton(pin: Jconectors, handler: () => void) {
+        const sensorID = getSensorID (Sensor.Button, pin)
+        control.onEvent(
+            SENSOR_EVENT_ID,
+            sensorID+1,
+            handler
+        )
+    }
+
 }
