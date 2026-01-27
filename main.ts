@@ -33,6 +33,12 @@ namespace Butia {
         //% block="Atras"
         Atras = 1
     }
+    export enum GDirs {
+        //% block="Derecha"
+        Derecha = 0,
+        //% block="Izquierda"
+        Izquierda = 1
+    }
     export enum MOptions {
         //% block="Izquierdo"
         Izquierdo = 0,
@@ -64,11 +70,26 @@ namespace Butia {
     //% block="Mover Butiá hacia $dir"
     //% group="Motores"
     export function moveButia(dir: BDirs) {
-        if (dir === BDirs.Adelante) { 
+        if (dir === BDirs.Atras) { 
             moveMotor (MOptions.Izquierdo, RDirs.Horario)
             moveMotor (MOptions.Derecho, RDirs.AHorario)
         } else {
             moveMotor (MOptions.Derecho, RDirs.Horario)
+            moveMotor (MOptions.Izquierdo, RDirs.AHorario)
+        }
+    }
+
+    /**
+     * Gira todo el robot en una direccion
+     */
+    //% block="Mover Butiá hacia $dir"
+    //% group="Motores"
+    export function twistButia(dir: GDirs) {
+        if (dir === GDirs.Derecha) { 
+            moveMotor (MOptions.Izquierdo, RDirs.Horario)
+            moveMotor (MOptions.Derecho, RDirs.Horario)
+        } else {
+            moveMotor (MOptions.Derecho, RDirs.AHorario)
             moveMotor (MOptions.Izquierdo, RDirs.AHorario)
         }
     }
