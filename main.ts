@@ -138,7 +138,7 @@ namespace Butia {
     /**
      * Comienza monitoreo
      */
-    //% block="Monitorear Luz en puerto $dir con umbral $threshold"
+    //% block="Monitorear Luz en puerto $pin con umbral $threshold"
     //% group="Eventos"
     export function startMonitoring(pin: Jconectors, threshold: number) {
         let wasAbove = false
