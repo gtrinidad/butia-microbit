@@ -128,6 +128,17 @@ namespace Butia {
 
     const SENSOR_EVENT_ID = 3194
 
+    export enum Sensors {
+        //% block="Luz"
+        Light = 1,
+        //% block="Grises"
+        Gray = 2,
+        //% block="Boton"
+        Button = 3,
+        //% block="Distancia"
+        Distance = 4,
+    }
+
     export enum SensorEvent {
         //% block="Supero el umbral"
         LevelReached = 1,
@@ -135,25 +146,35 @@ namespace Butia {
         LevelLeft = 2
     }
 
+    function getSensorID(sensor: Sensors, pin: Jconectors) {
+        return sensor * 1000 + (pin as number) * 100
+    }
+
     /**
      * Comienza monitoreo
      */
-    //% block="Monitorear Luz en puerto $pin con umbral $threshold"
+    //% block="Monitorear sensor de $sensor en puerto $pin con umbral $threshold"
+    //% threshold.min=1 threshold.max=99
     //% group="Eventos"
-    export function startMonitoring(pin: Jconectors, threshold: number) {
+    export function startMonitoring(sensor:Sensors, pin: Jconectors, threshold: number) {
         let wasAbove = false
-
+        const sensorID = getSensorID (sensor, pin)
         control.inBackground(() => {
             while (true) {
-                const value = readLightSensor(pin)
+                let value
+                if (sensor === Sensors.Distance) {
+                    value = readDistanceSensor(pin)
+                } else {
+                    value = readLightSensor(pin)
+                }
                 const isAbove = value >= threshold
 
                 if (isAbove && !wasAbove) {
-                    control.raiseEvent(SENSOR_EVENT_ID, SensorEvent.LevelReached)
+                    control.raiseEvent(SENSOR_EVENT_ID, sensorID + 1)
                 }
 
                 if (!isAbove && wasAbove) {
-                    control.raiseEvent(SENSOR_EVENT_ID, SensorEvent.LevelLeft)
+                    control.raiseEvent(SENSOR_EVENT_ID, sensorID)
                 }
 
                 wasAbove = isAbove
@@ -162,12 +183,24 @@ namespace Butia {
         })
     }
 
-    //% block="when sensor level reached"
+    //% block="Cuando el sensor de $sensor en el puerto $pin supera el umbral"
     //% group="Eventos"
-    export function onLevelReached(handler: () => void) {
+    export function onLevelReached(sensor: Sensors, pin: Jconectors, handler: () => void) {
+        const sensorID = getSensorID (sensor, pin)
         control.onEvent(
             SENSOR_EVENT_ID,
-            SensorEvent.LevelReached,
+            sensorID+1,
+            handler
+        )
+    }
+
+    //% block="Cuando el sensor de $sensor en el puerto $pin deja de superar el umbral"
+    //% group="Eventos"
+    export function onLevelUnreached(sensor: Sensors, pin: Jconectors, handler: () => void) {
+        const sensorID = getSensorID (sensor, pin)
+        control.onEvent(
+            SENSOR_EVENT_ID,
+            sensorID,
             handler
         )
     }
