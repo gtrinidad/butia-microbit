@@ -5,8 +5,8 @@
  * generated for an **exported** function.
  */
 
-//% color="#AA278D" weight=100
-namespace hello {
+//% color="#84c324" icon="\uf410"
+namespace Butia {
     //% block
     export function helloWorld() {
 
