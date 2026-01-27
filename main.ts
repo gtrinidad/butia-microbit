@@ -101,7 +101,7 @@ namespace Butia {
     /**
      * Gira todo el robot en una direccion
      */
-    //% block="Mover Butiá hacia $dir"
+    //% block="Girar Butiá hacia la $dir"
     //% group="Motores"
     export function twistButia(dir: GDirs) {
         if (dir === GDirs.Derecha) { 
