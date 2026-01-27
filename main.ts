@@ -32,7 +32,7 @@ namespace Butia {
      * Consultar el estado del botón
      */
     //% block="Boton en $pin esta apretado"
-    export function readButton(pin: boolean): boolean {
+    export function readButton(pin: Jconectors): boolean {
         return pins.digitalReadPin(pin as number as AnalogPin) == 1;
     }
 
