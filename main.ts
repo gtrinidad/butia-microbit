@@ -20,6 +20,18 @@ namespace Butia {
         //% block="J5"
         J5 = AnalogPin.P10,
     }
+    export enum RDirs {
+        //% block="Horario"
+        Horario = 0,
+        //% block="Anti-horario"
+        AHorario = 1
+    }
+    export enum MOptions {
+        //% block="Izquierdo"
+        Izquierdo = 0,
+        //% block="Derecho"
+        Derecho = 1
+    }
 
     /**
      * Este bloque lee un sensor de grises y devuelve su valor
@@ -34,7 +46,22 @@ namespace Butia {
      */
     //% block="Boton en $pin esta apretado"
     export function readButton(pin: Jconectors): boolean {
-        return pins.digitalReadPin(pin as number as AnalogPin) == 1;
+        return pins.digitalReadPin(pin as number as AnalogPin) == 0;
     }
+
+    /**
+     * Consultar el estado del botón
+     */
+    //% block="Prender motor $id en sentido $dir"
+    export function moveMotor(id: MOptions, dir: RDirs) {
+        let mDirs = (dir === RDirs.Horario) ? [1, 0] : [0, 1]
+        let mPins = (id === MOptions.Izquierdo) ? [DigitalPin.P13,DigitalPin.P14] : [DigitalPin.P15,DigitalPin.P16]
+
+        pins.digitalWritePin(mPins[0], mDirs[0])
+        pins.digitalWritePin(mPins[1], mDirs[1])
+    }
+
+    
+
 
 }
