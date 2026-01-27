@@ -17,7 +17,7 @@ namespace Butia {
         //% block="J4"
         J4 = AnalogPin.P4,
         //% block="J5"
-        J5 = AnalogPin.P5,
+        J5 = AnalogPin.P10,
     }
 
     /**
@@ -25,14 +25,15 @@ namespace Butia {
      */
     //% block="Sensor en %pin"
     export function readSensor(pin: Jconectors): number {
-        return pins.analogReadPin(pin as number as AnalogPin)
+        return Math.map(pins.analogReadPin(pin as number as AnalogPin), 0, 1023, 0, 100)
     }
 
-    // note that Caml casing yields lower case
-    // block text with spaces
-
-    //% block
-    export function camlCaseTwo() {
-
+    /**
+     * Consultar el estado del botón
+     */
+    //% block="Boton en $pin esta apretado"
+    export function readButton(pin: boolean): boolean {
+        return pins.digitalReadPin(pin as number as AnalogPin) == 1;
     }
+
 }
