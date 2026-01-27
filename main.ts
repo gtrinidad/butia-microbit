@@ -230,7 +230,7 @@ namespace Butia {
     //% block="Cuando el boton en el puerto $pin es presionado"
     //% group="Eventos"
     export function onButton(pin: Jconectors, handler: () => void) {
-        const sensorID = getSensorID (Sensor.Button, pin)
+        const sensorID = getSensorID (Sensors.Button, pin)
         control.onEvent(
             SENSOR_EVENT_ID,
             sensorID+1,
