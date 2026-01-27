@@ -4,6 +4,7 @@
  * is "block", and it specifies that a block should be
  * generated for an **exported** function.
  */
+pins.setAudioPin(DigitalPin.P0)
 
 //% color="#84c324" icon="\uf410"
 namespace Butia {
