@@ -49,10 +49,29 @@ namespace Butia {
     /**
      * Este bloque lee un sensor de grises y devuelve su valor
      */
-    //% block="Sensor en %pin"
+    //% block="Gris en %pin"
     //% group="Sensores"
-    export function readSensor(pin: Jconectors): number {
+    export function readGraySensor(pin: Jconectors): number {
         return Math.map(pins.analogReadPin(pin as number as AnalogPin), 0, 1023, 0, 100)
+    }
+
+    /**
+     * Este bloque lee un sensor de luz ambiente y devuelve su valor
+     */
+    //% block="Luz en %pin"
+    //% group="Sensores"
+    export function readLightSensor(pin: Jconectors): number {
+        return Math.map(pins.analogReadPin(pin as number as AnalogPin), 0, 1023, 0, 100)
+    }
+
+    /**
+     * Este bloque lee un sensor de distancia y devuelve su valor
+     */
+    //% block="Distancia en %pin"
+    //% group="Sensores"
+    export function readDistanceSensor(pin: Jconectors): number {
+        let adc_value =  pins.analogReadPin(pin as number as AnalogPin)
+        return 4800 / (adc_value - 20)
     }
 
     /**
