@@ -52,7 +52,7 @@ namespace Butia {
     //% block="Gris en %pin"
     //% group="Sensores"
     export function readGraySensor(pin: Jconectors): number {
-        return Math.map(pins.analogReadPin(pin as number as AnalogPin), 400, 1023, 100, 0)
+        return pins.analogReadPin(pin as number as AnalogPin)
     }
 
     /**
@@ -61,7 +61,7 @@ namespace Butia {
     //% block="Luz en %pin"
     //% group="Sensores"
     export function readLightSensor(pin: Jconectors): number {
-        return Math.map(pins.analogReadPin(pin as number as AnalogPin), 0, 1023, 100, 0)
+        return pins.analogReadPin(pin as number as AnalogPin)
     }
 
     /**
@@ -201,7 +201,7 @@ namespace Butia {
      * Comienza monitoreo
      */
     //% block="Monitorear sensor de $sensor en puerto $pin con umbral $threshold"
-    //% threshold.min=1 threshold.max=99
+    //% threshold.min=1 threshold.max=1023
     //% group="Eventos"
     export function startMonitoring(sensor:Sensors, pin: Jconectors, threshold: number) {
         let wasAbove = false
