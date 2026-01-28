@@ -99,6 +99,23 @@ namespace Butia {
     }
 
     /**
+     * Mueve todo el robot hacia una direccion durante un tiempo y se detiene
+     */
+    //% block="Mover Butiá hacia $dir por $time s"
+    //% group="Motores"
+    export function moveButiaBlocking(dir: BDirs, time:number) {
+        if (dir === BDirs.Atras) { 
+            moveMotor (MOptions.Izquierdo, RDirs.Horario)
+            moveMotor (MOptions.Derecho, RDirs.AHorario)
+        } else {
+            moveMotor (MOptions.Derecho, RDirs.Horario)
+            moveMotor (MOptions.Izquierdo, RDirs.AHorario)
+        }
+        basic.pause(time * 1000)
+        stop()
+    }
+
+    /**
      * Gira todo el robot en una direccion
      */
     //% block="Girar Butiá hacia la $dir"
@@ -111,6 +128,36 @@ namespace Butia {
             moveMotor (MOptions.Derecho, RDirs.AHorario)
             moveMotor (MOptions.Izquierdo, RDirs.AHorario)
         }
+    }
+
+    /**
+     * Gira todo el robot en una direccion durante un tiempo y se detiene
+     */
+    //% block="Girar Butiá hacia la $dir por $time s" 
+    //% group="Motores"
+    export function twistButiaBlocking(dir: GDirs, time:number) {
+        if (dir === GDirs.Derecha) { 
+            moveMotor (MOptions.Izquierdo, RDirs.Horario)
+            moveMotor (MOptions.Derecho, RDirs.Horario)
+        } else {
+            moveMotor (MOptions.Derecho, RDirs.AHorario)
+            moveMotor (MOptions.Izquierdo, RDirs.AHorario)
+        }
+        basic.pause(time * 1000)
+        stop()
+    }
+    
+    /**
+     * Detiene al Robot
+     */
+    //% block="Detener Butiá"
+    //% group="Motores"
+    export function stop() {
+        pins.digitalWritePin(DigitalPin.P13, 0)
+        pins.digitalWritePin(DigitalPin.P14, 0)
+
+        pins.digitalWritePin(DigitalPin.P15, 0)
+        pins.digitalWritePin(DigitalPin.P16, 0)
     }
 
     /**
