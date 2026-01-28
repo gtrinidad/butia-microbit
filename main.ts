@@ -52,7 +52,7 @@ namespace Butia {
     //% block="Gris en %pin"
     //% group="Sensores"
     export function readGraySensor(pin: Jconectors): number {
-        return pins.analogReadPin(pin as number as AnalogPin)
+        return 1023 - pins.analogReadPin(pin as number as AnalogPin)
     }
 
     /**
@@ -61,7 +61,7 @@ namespace Butia {
     //% block="Luz en %pin"
     //% group="Sensores"
     export function readLightSensor(pin: Jconectors): number {
-        return pins.analogReadPin(pin as number as AnalogPin)
+        return 1023 - pins.analogReadPin(pin as number as AnalogPin)
     }
 
     /**
