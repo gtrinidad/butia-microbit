@@ -1,12 +1,11 @@
 {
     "name": "Butiá",
-    "version": "1.1.0",
+    "version": "1.0.1",
     "description": "",
     "dependencies": {
         "core": "*",
         "radio": "*",
-        "microphone": "*",
-        "serial": "*"
+        "microphone": "*"
     },
     "files": [
         "main.blocks",
