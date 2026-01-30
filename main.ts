@@ -47,6 +47,21 @@ namespace Butia {
     }
 
     /**
+     * Debug serial
+     */
+    //% block="Imprimir valor del sensor de $sensor en el puerto $pin"
+    //% group="Sensores"
+    export function printSensorValue(sensor: Sensors, pin: Jconectors) {
+        let value
+        if (sensor === Sensors.Distance) {
+            value = readDistanceSensor(pin)
+        } else {
+            value = readLightSensor(pin)
+        }
+        serial.writeValue(""+pin, value)
+    }
+
+    /**
      * Este bloque lee un sensor de grises y devuelve su valor
      */
     //% block="Gris en %pin"
@@ -200,7 +215,7 @@ namespace Butia {
     /**
      * Comienza monitoreo
      */
-    //% block="Monitorear sensor de $sensor en puerto $pin con umbral $threshold"
+    //% block="Comenzar a monitorear sensor de $sensor en puerto $pin con umbral $threshold"
     //% threshold.min=1 threshold.max=1023
     //% group="Eventos"
     export function startMonitoring(sensor:Sensors, pin: Jconectors, threshold: number) {
