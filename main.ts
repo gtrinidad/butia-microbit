@@ -58,7 +58,7 @@ namespace Butia {
         } else {
             value = readLightSensor(pin)
         }
-        serial.writeValue(""+pin, value)
+        serial.writeValue("J"+pin%10, value)
     }
 
     /**
