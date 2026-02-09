@@ -86,7 +86,7 @@ namespace Butia {
     //% group="Sensores"
     export function readDistanceSensor(pin: Jconectors): number {
         let adc_value =  pins.analogReadPin(pin as number as AnalogPin)
-        return 4800 / (adc_value - 20)
+        return 9462 / (adc_value - 16)
     }
 
     /**
