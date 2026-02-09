@@ -220,9 +220,9 @@ namespace Butia {
     //% group="Eventos"
     export function startMonitoring(sensor:Sensors, pin: Jconectors, threshold: number) {
         let wasAbove = false
-        let cooldown = 5
         const sensorID = getSensorID (sensor, pin)
         control.inBackground(() => {
+            let cooldown = 5
             while (true) {
                 let value
                 if (sensor === Sensors.Distance) {
