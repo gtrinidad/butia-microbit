@@ -220,6 +220,7 @@ namespace Butia {
     //% group="Eventos"
     export function startMonitoring(sensor:Sensors, pin: Jconectors, threshold: number) {
         let wasAbove = false
+        let cooldown = 5
         const sensorID = getSensorID (sensor, pin)
         control.inBackground(() => {
             while (true) {
@@ -230,13 +231,19 @@ namespace Butia {
                     value = readLightSensor(pin)
                 }
                 const isAbove = value >= threshold
-
-                if (isAbove && !wasAbove) {
-                    control.raiseEvent(SENSOR_EVENT_ID, sensorID + 1)
+                if (cooldown > 0) {
+                    cooldown = cooldown - 1
                 }
-
-                if (!isAbove && wasAbove) {
-                    control.raiseEvent(SENSOR_EVENT_ID, sensorID)
+                else {
+                    if (isAbove && !wasAbove) {
+                        control.raiseEvent(SENSOR_EVENT_ID, sensorID + 1)
+                        cooldown = 5
+                    }
+    
+                    if (!isAbove && wasAbove) {
+                        control.raiseEvent(SENSOR_EVENT_ID, sensorID)
+                        cooldown = 5
+                    }
                 }
 
                 wasAbove = isAbove
